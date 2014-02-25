@@ -21,16 +21,17 @@ public class SerialPortController implements SerialPortEventListener {
 
 	public static void main(String[] args) {
 
-		if(args.length > 0){
+		if (args.length > 0) {
 			new SerialPortController().initialize(args[0]);
-		}else{
+		} else {
 			System.out.println("Use:");
-			System.out.println("SerialPortController COM[number] (if you are in windows environment)");
+			System.out
+					.println("SerialPortController COM[number] (if you are in windows environment)");
 			System.out.println("            or");
-			System.out.println("SerialPortController /tty[number] (if you are in linux environment)");
+			System.out
+					.println("SerialPortController /tty[number] (if you are in linux environment)");
 		}
-		
-		
+
 	}
 
 	private void initialize(String portName) {
@@ -43,8 +44,8 @@ public class SerialPortController implements SerialPortEventListener {
 			if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
 				if (portId.getName().equals(portName)) {
 					try {
-						serialPort = (SerialPort) portId.open("SerialPortController",
-								2000);
+						serialPort = (SerialPort) portId.open(
+								"SerialPortController", 2000);
 						inputStream = serialPort.getInputStream();
 
 						System.out.println("Connected on port: "
@@ -86,13 +87,12 @@ public class SerialPortController implements SerialPortEventListener {
 
 				if (!read.isEmpty()) {
 
-					// System.out.println("[" + read + "]");
-
 					stringBuffer.append(read);
 					if (read.indexOf('\r') != -1) {
 						System.out.println("Size:"
 								+ stringBuffer.toString().length()
-								+ ".Content:" + stringBuffer.toString());
+								+ ".Content:"
+								+ stringBuffer.toString().replace('\r', ' '));
 						this.processLine(stringBuffer.toString().trim());
 						stringBuffer = new StringBuffer();
 					}
@@ -121,12 +121,15 @@ public class SerialPortController implements SerialPortEventListener {
 		String fromCityAirportCode = line.substring(31, 31 + 3);
 		String toCityAirportCode = line.substring(34, 34 + 3);
 		String operatingCarrierDesignator = line.substring(37, 37 + 3);
-
-		System.out.format("%1s,%1s,%20s,%1s,%7s,%3s,%3s,%3s", formatCode,
+		String fligthNumber = line.substring(40, 40+5);
+		String dateOfFligth = line.substring(45, 45 + 3);
+		
+		System.out.format("%1s,%1s,%20s,%1s,%7s,%3s,%3s,%3s,%5s,%3s", formatCode,
 				numberOfLegsEncoded, passengerName, electronicTicketIndicator,
 				operatingCarrierPNRCode, fromCityAirportCode,
-				toCityAirportCode, operatingCarrierDesignator);
+				toCityAirportCode, operatingCarrierDesignator, fligthNumber, dateOfFligth);
 
+		System.out.println();
 	}
 
 }
