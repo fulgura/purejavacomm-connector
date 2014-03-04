@@ -140,30 +140,35 @@ public class SerialPortScanner implements SerialPortEventListener {
 		}
 	}
 
-	private void splitLine(String line, int numberOfLegsEncoded){
-		
+	private void splitLine(String line, int numberOfLegsEncoded) {
+
 		List<String> spittedLines = new ArrayList<String>();
-		
+
 		int mandatoryItemsInitialIndex = 1;
 		int mandatoryItemsFinalIndex = mandatoryItemsInitialIndex + 60;
 
 		int conditionalItemsPartInitialIndex = mandatoryItemsFinalIndex;
 		int conditionalItemsFinalIndex = conditionalItemsPartInitialIndex;
-		
+
 		for (int i = 0; i < numberOfLegsEncoded; i++) {
-			String mandatoryItemsLine = line.substring(mandatoryItemsInitialIndex, mandatoryItemsFinalIndex);
+			String mandatoryItemsLine = line.substring(
+					mandatoryItemsInitialIndex, mandatoryItemsFinalIndex);
 			spittedLines.add(mandatoryItemsLine);
-			
-			int conditionalItemsSize = Integer.parseInt(
-					line.substring(mandatoryItemsFinalIndex - 2 , mandatoryItemsFinalIndex), 16);
-			
-			conditionalItemsFinalIndex = conditionalItemsPartInitialIndex + conditionalItemsSize;
-			String conditionalItemsLine = line.substring(conditionalItemsPartInitialIndex, conditionalItemsFinalIndex);
+
+			int conditionalItemsSize = Integer
+					.parseInt(line.substring(mandatoryItemsFinalIndex - 2,
+							mandatoryItemsFinalIndex), 16);
+
+			conditionalItemsFinalIndex = conditionalItemsPartInitialIndex
+					+ conditionalItemsSize;
+			String conditionalItemsLine = line.substring(
+					conditionalItemsPartInitialIndex,
+					conditionalItemsFinalIndex);
 			spittedLines.add(conditionalItemsLine);
-			
+
 		}
 	}
-	
+
 	private void processLine(String line) throws SQLException {
 
 		String bid = line.substring(0, 1);
@@ -172,9 +177,9 @@ public class SerialPortScanner implements SerialPortEventListener {
 		// MANDATORY ITEMS
 		String formatCode = line.substring(1, 1 + 1);
 		String numberOfLegsEncoded = line.substring(2, 2 + 1);
-		
+
 		this.splitLine(line, Integer.parseInt(numberOfLegsEncoded));
-		
+
 		String passengerName = line.substring(3, 3 + 20);
 		String electronicTicketIndicator = line.substring(23, 23 + 1);
 		String operatingCarrierPNRCode = line.substring(24, 24 + 7);
@@ -189,13 +194,12 @@ public class SerialPortScanner implements SerialPortEventListener {
 		String checkInSequenceNumber = line.substring(53, 53 + 5);
 		String passengerStatus = line.substring(58, 58 + 1);
 
-		registerRepository.save(new Register(line.trim(), formatCode,
-				numberOfLegsEncoded, passengerName, electronicTicketIndicator,
-				operatingCarrierPNRCode, fromCityAirportCode,
-				toCityAirportCode, operatingCarrierDesignator, fligthNumber,
-				dateOfFligth, compartmentCode, seatNumber,
-				checkInSequenceNumber, passengerStatus));
-		
+		registerRepository.save(new Register(operatingCarrierPNRCode,
+				fromCityAirportCode, toCityAirportCode,
+				operatingCarrierDesignator, fligthNumber, dateOfFligth,
+				compartmentCode, seatNumber, checkInSequenceNumber,
+				passengerStatus));
+
 		int fieldSizeOfFollowingVariableSizeField = Integer.parseInt(
 				line.substring(59, 59 + 2), 16);
 
@@ -223,6 +227,7 @@ public class SerialPortScanner implements SerialPortEventListener {
 					1);
 			String fieldSizeOfFollowingStructuredMessage = this.safeSubstring(
 					conditionalItemsLine, 2, 2);
+
 			String passengerDescription = this.safeSubstring(
 					conditionalItemsLine, 2, 1);
 			String sourceOfCheckIn = this.safeSubstring(conditionalItemsLine,
@@ -237,6 +242,7 @@ public class SerialPortScanner implements SerialPortEventListener {
 					conditionalItemsLine, 10, 3);
 			String baggageTagLicencePlateNumer = this.safeSubstring(
 					conditionalItemsLine, 13, 13);
+
 			String fieldSizeOfFollowingNextStructuredMessage = this
 					.safeSubstring(conditionalItemsLine, 26, 2);
 			String airlineNumericCode = this.safeSubstring(

@@ -19,39 +19,20 @@ public class RegisterRepository {
 
 		String sql = "INSERT INTO register( ID,"
 				+ "check_in_sequence_number, compartment_code, date_of_fligth, "
-				+ "electronic_ticket_indicator, fligth_number, format_code, from_city_airport_code, "
-				+ "number_of_legs_encoded, operating_carrier_designator, operating_carrierpnrcode, "
-				+ "passenger_name, passenger_status, seat_number, to_city_airport_code, raw_data)"
+				+ " fligth_number, from_city_airport_code, "
+				+ "operating_carrier_designator, operating_carrierpnrcode, "
+				+ " passenger_status, seat_number, to_city_airport_code)"
 				+ " VALUES ( nextval('hibernate_sequence'), '"
-				+ register.getCheckInSequenceNumber()
-				+ "', '"
-				+ register.getCompartmentCode()
-				+ "', '"
-				+ register.getDateOfFligth()
-				+ "', '"
-				+ register.getElectronicTicketIndicator()
-				+ "', '"
-				+ register.getFligthNumber()
-				+ "', '"
-				+ register.getFormatCode()
-				+ "', '"
-				+ register.getFromCityAirportCode()
-				+ "', '"
-				+ register.getNumberOfLegsEncoded()
-				+ "', '"
-				+ register.getOperatingCarrierDesignator()
-				+ "', '"
-				+ register.getOperatingCarrierPNRCode()
-				+ "', '"
-				+ register.getPassengerName()
-				+ "', '"
-				+ register.getPassengerStatus()
-				+ "','"
-				+ register.getSeatNumber()
-				+ "', '"
-				+ register.getToCityAirportCode()
-				+ "', '"
-				+ register.getRawData() + "');";
+				+ register.getCheckInSequenceNumber() + "', '"
+				+ register.getCompartmentCode() + "', '"
+				+ register.getDateOfFligth() + "', '"
+				+ register.getFligthNumber() + "', '"
+				+ register.getFromCityAirportCode() + "', '"
+				+ register.getOperatingCarrierDesignator() + "', '"
+				+ register.getOperatingCarrierPNRCode() + "', '"
+				+ register.getPassengerStatus() + "','"
+				+ register.getSeatNumber() + "', '"
+				+ register.getToCityAirportCode() + "');";
 
 		System.out.println(sql);
 		statement.executeUpdate(sql);
