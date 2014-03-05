@@ -10,14 +10,17 @@ import com.ps.fts.entity.Register;
 public class Resolution792Parser {
 
 	public static void main(String[] args) {
-//		new Resolution792Parser()
-//				.parse("6M1TS AEP00XX448/UNO    RECLOC UIOGYEXX 9999 050Y001A0001 100");
+		// new Resolution792Parser()
+		// .parse("6M1TS AEP00XX448/UNO    RECLOC UIOGYEXX 9999 050Y001A0001 100");
 
+		// new Resolution792Parser()
+		// .parse("6M1CAPONE/DINO         YLE8J9M IAHPHLCO 1676 349G32A 12   13A>30B        CO 29             00   US 6655900             ADk+5kMZqFDwRftgGZvhWMnNH0IrAxugr7e1h5cW+SNETsM0oCY2uwRG");
+
+		// new Resolution792Parser()
+		// .parse("6M1HERRERA/BEETHOVEN   E5P3HRC UIOBOGAV 7372 349Y024C0069 348>2180      B1A              29             0    AV 13428027712");
 		new Resolution792Parser()
-		 .parse("6M1CAPONE/DINO         YLE8J9M IAHPHLCO 1676 349G32A 12   13A>30B        CO 29             00   US 6655900             ADk+5kMZqFDwRftgGZvhWMnNH0IrAxugr7e1h5cW+SNETsM0oCY2uwRG");
+				.parse("6M2DESMARAIS/LUC       EABC123 YULFRAAC 0834 226F001A0025 14C>3181WW6225BAC 0085123456003290141234567890 1AC AC 1234567890123    20KLX58ZDEF456 FRAGVALH 3664 227C012C0002 12D290140987654321 1AC AC 1234567890123    2PCWQ^164");
 
-//		new Resolution792Parser()
-//				.parse("6M1HERRERA/BEETHOVEN   E5P3HRC UIOBOGAV 7372 349Y024C0069 348>2180      B1A              29             0    AV 13428027712");
 	}
 
 	private List<Register> splitLine(String line, int numberOfLegsEncoded) {
@@ -36,7 +39,7 @@ public class Resolution792Parser {
 					mandatoryItemsInitialIndex, mandatoryItemsFinalIndex);
 
 			int conditionalItemsSize = Integer
-					.parseInt(line.substring(mandatoryItemsFinalIndex ,
+					.parseInt(line.substring(mandatoryItemsFinalIndex,
 							mandatoryItemsFinalIndex + 2), 16);
 
 			conditionalItemsFinalIndex = conditionalItemsPartInitialIndex
@@ -48,6 +51,14 @@ public class Resolution792Parser {
 
 			registers.add(this.processLine(mandatoryItemsLine,
 					conditionalItemsLine));
+			
+			
+			mandatoryItemsInitialIndex = conditionalItemsFinalIndex;
+			mandatoryItemsFinalIndex = mandatoryItemsInitialIndex + 35;
+
+			conditionalItemsPartInitialIndex = mandatoryItemsFinalIndex + 2;
+			conditionalItemsFinalIndex = conditionalItemsPartInitialIndex;
+			
 		}
 
 		return registers;
@@ -69,39 +80,40 @@ public class Resolution792Parser {
 						new Field(5, "checkInSequenceNumber"),
 						new Field(1, "passengerStatus") });
 
-//		if (conditionalItemsLine != null && !conditionalItemsLine.isEmpty()) {
-//			Map<String, Field> headerConditionalValues = this.retrieveValues(
-//					conditionalItemsLine, new Field[] {
-//							new Field(1, "beginningOfVersionNumber"),
-//							new Field(1, "versionNumber"),
-//							new Field(2,
-//									"fieldSizeOfFollowingStructuredMessage") });
-//
-//			Integer size = headerConditionalValues.get(
-//					"fieldSizeOfFollowingStructuredMessage").getHexaValue();
-//
-//			Map<String, Field> conditionalValues = this.retrieveValues(
-//					conditionalItemsLine.substring(4, 4 + size), new Field[] {
-//							new Field(1, "passengerDescription"),
-//							new Field(1, "sourceOfCheckIn"),
-//							new Field(1, "sourceOfBoardingPassIssuance"),
-//							new Field(4, "dateOfIssueOfBoardingPass"),
-//							new Field(1, "documentType"),
-//							new Field(3,
-//									"airlineDesignatorOfBoardingPassIssuer"),
-//							new Field(13, "baggageTagLicencePlateNumer") });
-//
-//			String nextSection = conditionalItemsLine
-//					.substring(
-//							6 + size,
-//							+6
-//									+ size
-//									+ this.retrieveValue(conditionalItemsLine,
-//											4 + size, 4 + size + 2,
-//											"fieldSizeOfFollowingNextStructuredMessage")
-//											.getHexaValue());
-//
-//		}
+		// if (conditionalItemsLine != null && !conditionalItemsLine.isEmpty())
+		// {
+		// Map<String, Field> headerConditionalValues = this.retrieveValues(
+		// conditionalItemsLine, new Field[] {
+		// new Field(1, "beginningOfVersionNumber"),
+		// new Field(1, "versionNumber"),
+		// new Field(2,
+		// "fieldSizeOfFollowingStructuredMessage") });
+		//
+		// Integer size = headerConditionalValues.get(
+		// "fieldSizeOfFollowingStructuredMessage").getHexaValue();
+		//
+		// Map<String, Field> conditionalValues = this.retrieveValues(
+		// conditionalItemsLine.substring(4, 4 + size), new Field[] {
+		// new Field(1, "passengerDescription"),
+		// new Field(1, "sourceOfCheckIn"),
+		// new Field(1, "sourceOfBoardingPassIssuance"),
+		// new Field(4, "dateOfIssueOfBoardingPass"),
+		// new Field(1, "documentType"),
+		// new Field(3,
+		// "airlineDesignatorOfBoardingPassIssuer"),
+		// new Field(13, "baggageTagLicencePlateNumer") });
+		//
+		// String nextSection = conditionalItemsLine
+		// .substring(
+		// 6 + size,
+		// +6
+		// + size
+		// + this.retrieveValue(conditionalItemsLine,
+		// 4 + size, 4 + size + 2,
+		// "fieldSizeOfFollowingNextStructuredMessage")
+		// .getHexaValue());
+		//
+		// }
 
 		return new Register(mandatoryValues);
 	}
