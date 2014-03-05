@@ -11,7 +11,7 @@ import com.ps.fts.service.Field;
  * @author matilde
  * 
  */
-public class Register {
+public class Item {
 
 	Long id;
 	String operatingCarrierPNRCode;
@@ -26,7 +26,7 @@ public class Register {
 	String checkInSequenceNumber;
 	String passengerStatus;
 
-	public Register(String operatingCarrierPNRCode, String fromCityAirportCode,
+	public Item(String operatingCarrierPNRCode, String fromCityAirportCode,
 			String toCityAirportCode, String operatingCarrierDesignator,
 			String fligthNumber, String dateOfFligth, String compartmentCode,
 			String seatNumber, String checkInSequenceNumber,
@@ -44,7 +44,7 @@ public class Register {
 		this.passengerStatus = passengerStatus;
 	}
 
-	public Register(Map<String, Field> mandatoryValues) {
+	public Item(Map<String, Field> mandatoryValues) {
 		this(mandatoryValues.get("operatingCarrierPNRCode").getValue(),
 				mandatoryValues.get("fromCityAirportCode").getValue(),
 				mandatoryValues.get("toCityAirportCode").getValue(),

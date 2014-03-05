@@ -12,7 +12,7 @@ import purejavacomm.SerialPort;
 import purejavacomm.SerialPortEvent;
 import purejavacomm.SerialPortEventListener;
 
-import com.ps.fts.entity.Register;
+import com.ps.fts.entity.Item;
 import com.ps.fts.repository.RegisterRepository;
 
 public class SerialPortScanner implements SerialPortEventListener {
@@ -194,7 +194,7 @@ public class SerialPortScanner implements SerialPortEventListener {
 		String checkInSequenceNumber = line.substring(53, 53 + 5);
 		String passengerStatus = line.substring(58, 58 + 1);
 
-		registerRepository.save(new Register(operatingCarrierPNRCode,
+		registerRepository.save(new Item(operatingCarrierPNRCode,
 				fromCityAirportCode, toCityAirportCode,
 				operatingCarrierDesignator, fligthNumber, dateOfFligth,
 				compartmentCode, seatNumber, checkInSequenceNumber,

@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.ps.fts.entity.Register;
+import com.ps.fts.entity.BoardingPass;
+import com.ps.fts.entity.Error;
+import com.ps.fts.entity.Item;
 
 public class RegisterRepository {
 
@@ -14,7 +16,7 @@ public class RegisterRepository {
 		this.connection = conn;
 	}
 
-	public void save(Register register) throws SQLException {
+	public void save(Item register) throws SQLException {
 		Statement statement = this.connection.createStatement();
 
 		String sql = "INSERT INTO register( ID,"
@@ -38,5 +40,15 @@ public class RegisterRepository {
 		statement.executeUpdate(sql);
 
 		statement.close();
+	}
+
+	public void save(BoardingPass boardingPass) {
+		
+		
+	}
+
+	public void save(Error error) {
+		
+		
 	}
 }
